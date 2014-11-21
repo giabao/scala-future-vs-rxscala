@@ -19,7 +19,8 @@ Please create a PR if you...
   val o1 = Observable just 5 //T is Int, o1 hold 1 value = 5
   val o3 = Observable from Seq(1,3,5) //o3 hold 3 value
   val oInf = o3.repeat //oInf hold infinite value: 1,3,5,1,3,5,...
-  val o0 = Observable.empty //T is Nothing, o0 hold 0 value - invokes onCompleted on observers
+  //T is Nothing, o0 hold 0 value - invokes onCompleted on observers
+  val o0 = Observable.empty
   //T is Nothing, oE hold an Exception - invokes onError on observers
   val oE = Observable error new Exception("foo")
   ```
@@ -76,6 +77,10 @@ Please create a PR if you...
   Observable error new Exception doOnCompleted {
     print("fail") //never go here
   }
+  
+  aFuture onComplete { _ => f() }
+  // is same as
+  anObservable doOnTerminate { f() }
   ```
 
 

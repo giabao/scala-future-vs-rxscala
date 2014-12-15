@@ -85,7 +85,7 @@ Please create a PR if you...
   anObservable finallyDo { ??? }
   ```
 
-8. Observable can be [`hot` or `cold`](https://github.com/ReactiveX/RxJava/wiki/Observable#hot-and-cold-observables). Future is alway `hot`
+8. <a name="Cold-Observable"></a>Observable can be [`hot` or `cold`](https://github.com/ReactiveX/RxJava/wiki/Observable#hot-and-cold-observables). Future is alway `hot`
 
   ```scala
   val obs = Observable[Int] { observer =>

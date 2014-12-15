@@ -78,10 +78,27 @@ Please create a PR if you...
     print("fail") //never go here
   }
   
-  aFuture onComplete { _ => f() }
-  // is same as
-  anObservable doOnTerminate { f() }
+  aFuture onComplete { _ => ??? }
+  // is similar to
+  anObservable doOnTerminate { ??? }
+  // or
+  anObservable finallyDo { ??? }
   ```
 
+8. Observable can be [`hot` or `cold`](https://github.com/ReactiveX/RxJava/wiki/Observable#hot-and-cold-observables). Future is alway `hot`
 
-
+  ```scala
+  val obs = Observable[Int] { observer =>
+    print("This will never be printed!")
+    observer.onNext(0)
+    observer.onCompleted()
+  }
+  obs.map(_ + 1)
+    .doOnNext(println) //not print
+    .finallyDo(println("This will never be printed!!"))
+  
+  val f = Future { print("This will BE printed before `f` is created!"); 0 }
+  f.map(_ + 1)
+    .andThen { case Success(i) => println(i) } //print 1
+    .onComplete(_ => println("This will BE printed!"))
+  ```

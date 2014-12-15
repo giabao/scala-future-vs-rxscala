@@ -89,13 +89,15 @@ Please create a PR if you...
 
   ```scala
   val obs = Observable[Int] { observer =>
-    print("This will never be printed!")
+    println("When this be printed?")
     observer.onNext(0)
     observer.onCompleted()
   }
-  obs.map(_ + 1)
+  val obs2 = obs.map(_ + 1)
     .doOnNext(println) //not print
-    .finallyDo(println("This will never be printed!!"))
+    .finallyDo(println("When this be printed?"))
+  
+  obs2.subscribe() //ONLY after this line, the println commands above will be executed!
   
   val f = Future { print("This will BE printed before `f` is created!"); 0 }
   f.map(_ + 1)
